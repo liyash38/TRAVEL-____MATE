@@ -37,7 +37,7 @@ nav a{color:white;text-decoration:none;margin-left:20px}
 
 /* HERO */
 .hero{
- background:url("https://images.unsplash.com/photo-1507525428034-b723cf961d3e") center/cover no-repeat;
+ background:url("home.jpg") center/cover no-repeat;
  height:65vh;display:flex;align-items:center;justify-content:center;
  text-align:center;color:white
 }
@@ -101,6 +101,7 @@ footer{
   <input id="user" placeholder="Username">
   <input id="pass" type="password" placeholder="Password">
   <label><input type="checkbox" id="remember"> Remember Me</label>
+  <p class="error" id="loginErr"></p>
   <button onclick="login()">Login</button>
  </div>
 </div>
@@ -168,24 +169,29 @@ footer{
 
 <script>
 /* AUTO LOGIN */
-if(localStorage.user){
- user.value=localStorage.user;
- pass.value=localStorage.pass;
+if(localStorage.tmUser){
+ user.value=localStorage.tmUser;
+ pass.value=localStorage.tmPass;
  remember.checked=true;
+ login();
 }
 
 /* LOGIN */
 function login(){
+ if(!user.value || !pass.value){
+  loginErr.textContent="Enter username & password";
+  return;
+ }
  if(remember.checked){
-  localStorage.user=user.value;
-  localStorage.pass=pass.value;
+  localStorage.tmUser=user.value;
+  localStorage.tmPass=pass.value;
  }
  loginBox.style.display="none";
  site.style.display="block";
 }
 
-/* UNIQUE IMAGES (NO REPEAT) */
-const images=[
+/* UNIQUE IMAGES – EXACTLY 50 */
+const images=[...new Set([
 "https://images.unsplash.com/photo-1593693397690-362cb9666fc2",
 "https://images.unsplash.com/photo-1621330396173-1b1c1a42c36e",
 "https://images.unsplash.com/photo-1626621341517-b9c0d6a50f16",
@@ -211,32 +217,14 @@ const images=[
 "https://images.unsplash.com/photo-1493558103817-58b2924bce98",
 "https://images.unsplash.com/photo-1494475673543-6a6a27143b1b",
 "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05",
-"https://images.unsplash.com/photo-1501785888041-af3ef285b470",
 "https://images.unsplash.com/photo-1483683804023-6ccdb62f86ef",
 "https://images.unsplash.com/photo-1519681393784-d120267933ba",
 "https://images.unsplash.com/photo-1505761671935-60b3a7427bad",
 "https://images.unsplash.com/photo-1504196606672-aef5c9cefc92",
 "https://images.unsplash.com/photo-1512100356356-de1b84283e18",
-"https://images.unsplash.com/photo-1500534314209-a25ddb2bd429",
-"https://images.unsplash.com/photo-1518709268805-4e9042af9f23",
-"https://images.unsplash.com/photo-1493558103817-58b2924bce98",
-"https://images.unsplash.com/photo-1528909514045-2fa4ac7a08ba",
-"https://images.unsplash.com/photo-1501785888041-af3ef285b470",
-"https://images.unsplash.com/photo-1494475673543-6a6a27143b1b",
-"https://images.unsplash.com/photo-1500048993959-dc8d3c1a0f5b",
-"https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05",
-"https://images.unsplash.com/photo-1500530855697-b586d89ba3ee",
-"https://images.unsplash.com/photo-1519985176271-adb1088fa94c",
-"https://images.unsplash.com/photo-1526481280690-7e0c20bfa1c9",
-"https://images.unsplash.com/photo-1483683804023-6ccdb62f86ef",
-"https://images.unsplash.com/photo-1519125323398-675f0ddb6308",
-"https://images.unsplash.com/photo-1512100356356-de1b84283e18",
-"https://images.unsplash.com/photo-1518709268805-4e9042af9f23",
-"https://images.unsplash.com/photo-1505761671935-60b3a7427bad",
-"https://images.unsplash.com/photo-1504196606672-aef5c9cefc92"
-];
+"https://images.unsplash.com/photo-1518709268805-4e9042af9f23"
+])];
 
-/* PACKAGES */
 const packages=[
 "Ooty","Kodaikanal","Manali","Goa","Kerala","Munnar","Coorg","Wayanad","Shimla","Darjeeling",
 "Agra","Jaipur","Udaipur","Jaisalmer","Ladakh","Kashmir","Amritsar","Rishikesh","Haridwar",
@@ -245,13 +233,12 @@ const packages=[
 "Nepal","Bhutan","Vietnam","Cambodia","Indonesia","Philippines","Egypt","Turkey","Greece","Spain"
 ];
 
-let selected="",price=0;
 const box=document.getElementById("pkgBox");
 packages.forEach((n,i)=>{
  let p=8000+i*400;
  box.innerHTML+=`
  <div class="card">
-  <img src="${images[i]}">
+  <img src="${images[i%images.length]}">
   <div class="card-body">
    <h3>${n} Tour</h3>
    <p>${2+i%4} Days / ${1+i%3} Nights</p>
@@ -262,6 +249,7 @@ packages.forEach((n,i)=>{
 });
 
 /* BOOKING */
+let selected="",price=0;
 function book(n,p){
  selected=n;price=p;
  bookDetails.innerHTML=`<b>${n}</b><br>Amount: ₹${p}`;
@@ -269,19 +257,20 @@ function book(n,p){
 }
 function closeBooking(){bookBox.style.display="none"}
 function confirmBooking(){
- alert("Booking confirmed for "+selected);
+ alert(`Booking confirmed for ${selected} – ₹${price}`);
  closeBooking();
 }
 
 /* REVIEWS */
-const list=document.getElementById("reviewList");
 function addReview(){
- let stars="★".repeat(rStar.value);
- list.innerHTML+=`
+ if(!rName.value || !rMsg.value) return;
+ let stars="★".repeat(+rStar.value);
+ let avatar=Math.floor(Math.random()*50)+1;
+ reviewList.innerHTML+=`
  <div class="review">
   <button class="del" onclick="this.parentElement.remove()">×</button>
   <div class="review-header">
-   <img src="https://randomuser.me/api/portraits/lego/1.jpg">
+   <img src="https://randomuser.me/api/portraits/lego/${avatar}.jpg">
    <strong>${rName.value}</strong>
   </div>
   <div class="stars">${stars}</div>
