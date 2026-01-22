@@ -11,24 +11,19 @@ body{background:#f4f6f8}
 
 /* COMMON */
 .center{
- position:fixed;inset:0;
- display:flex;align-items:center;justify-content:center;
- background:#f4f6f8;z-index:9999;
+ position:fixed;inset:0;display:flex;align-items:center;justify-content:center;
+ background:rgba(0,0,0,.4);z-index:9999
 }
 .box{
- width:360px;background:#fff;padding:25px;
- border-radius:14px;text-align:center;
- box-shadow:0 12px 30px rgba(0,0,0,.2);
+ width:360px;background:#fff;padding:25px;border-radius:14px;
+ text-align:center;box-shadow:0 12px 30px rgba(0,0,0,.25)
 }
-input,button{
- width:100%;padding:12px;margin:10px 0;border-radius:8px
+input,textarea,select,button{
+ width:100%;padding:12px;margin:8px 0;border-radius:8px
 }
-input{border:1px solid #ccc}
-button{background:#002b5b;color:white;border:none;cursor:pointer}
+button{background:#002b5b;color:#fff;border:none;cursor:pointer}
 .error{color:red;font-size:14px}
-.code{font-size:22px;font-weight:bold;color:#198754}
 
-/* SITE */
 #site{display:none}
 
 /* NAV */
@@ -42,14 +37,15 @@ nav a{color:white;text-decoration:none;margin-left:20px}
 
 /* HERO */
 .hero{
- background:url("https://images.unsplash.com/photo-1507525428034-b723cf961d3e") center/cover;
- height:60vh;display:flex;align-items:center;justify-content:center;
- color:white;text-align:center
+ background:url("https://images.unsplash.com/photo-1507525428034-b723cf961d3e") center/cover no-repeat;
+ height:65vh;display:flex;align-items:center;justify-content:center;
+ text-align:center;color:white
 }
-.hero h1{text-shadow:2px 2px 8px black}
+.hero h1{font-size:46px;text-shadow:2px 2px 8px black}
 
-/* CONTAINER */
-.container{max-width:1200px;margin:auto;padding:40px}
+/* CONTENT */
+.container{max-width:1200px;margin:auto;padding:50px 20px}
+h2{text-align:center;margin-bottom:30px;color:#002b5b}
 
 /* PACKAGES */
 .packages{
@@ -58,57 +54,86 @@ nav a{color:white;text-decoration:none;margin-left:20px}
  gap:25px
 }
 .card{
- background:white;border-radius:12px;overflow:hidden;
+ background:#fff;border-radius:12px;overflow:hidden;
  box-shadow:0 6px 15px rgba(0,0,0,.15)
 }
 .card img{width:100%;height:200px;object-fit:cover}
-.card-body{padding:18px}
-.price{color:#ff6600;font-weight:bold}
-.card button{margin-top:10px}
-
-/* POPUP */
-.popup{
- position:fixed;inset:0;background:rgba(0,0,0,.6);
- display:none;align-items:center;justify-content:center;
-}
-.popup .box{width:340px}
+.card-body{padding:20px}
+.price{color:#ff6600;font-weight:bold;margin:8px 0}
 
 /* REVIEWS */
-.review-box{
- background:#fff;padding:20px;border-radius:12px;
- margin:15px 0;box-shadow:0 5px 10px rgba(0,0,0,.1)
+.review-btn{
+ display:block;margin:25px auto;
+ padding:12px 25px;background:#ff6600;border-radius:30px
 }
-.stars{color:gold}
-.small-btn{background:red;padding:5px 8px;font-size:12px}
+.reviews{
+ display:grid;
+ grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+ gap:20px
+}
+.review{
+ background:#fff;padding:18px;border-radius:12px;
+ box-shadow:0 4px 12px rgba(0,0,0,.15);position:relative
+}
+.review-header{display:flex;align-items:center;gap:10px}
+.review img{width:45px;height:45px;border-radius:50%}
+.stars{color:gold;font-size:18px}
+.del{
+ position:absolute;top:10px;right:10px;
+ background:red;color:white;border:none;border-radius:50%;
+ width:25px;height:25px;cursor:pointer
+}
+
+/* FOOTER */
+footer{
+ background:#002b5b;color:white;text-align:center;
+ padding:15px;margin-top:40px
+}
 </style>
 </head>
 
 <body>
 
-<!-- SECURITY -->
-<div class="center" id="secBox">
- <div class="box">
-  <h3>Security Verification</h3>
-  <div class="code" id="secCode"></div>
-  <input id="secInput" placeholder="Enter code">
-  <button onclick="checkSec()">Verify</button>
-  <p class="error" id="secErr"></p>
- </div>
-</div>
-
 <!-- LOGIN -->
-<div class="center" id="loginBox" style="display:none">
+<div class="center" id="loginBox">
  <div class="box">
-  <h3>User Login</h3>
+  <h2>User Login</h2>
   <input id="user" placeholder="Username">
   <input id="pass" type="password" placeholder="Password">
   <label><input type="checkbox" id="remember"> Remember Me</label>
   <button onclick="login()">Login</button>
-  <p class="error" id="logErr"></p>
  </div>
 </div>
 
-<!-- SITE -->
+<!-- BOOKING -->
+<div class="center" id="bookBox" style="display:none">
+ <div class="box">
+  <h2>Confirm Booking</h2>
+  <p id="bookDetails"></p>
+  <button onclick="confirmBooking()">Confirm</button>
+  <button onclick="closeBooking()">Cancel</button>
+ </div>
+</div>
+
+<!-- REVIEW FORM -->
+<div class="center" id="reviewBox" style="display:none">
+ <div class="box">
+  <h2>Add Review</h2>
+  <input id="rName" placeholder="Your Name">
+  <select id="rStar">
+   <option value="5">⭐⭐⭐⭐⭐</option>
+   <option value="4">⭐⭐⭐⭐</option>
+   <option value="3">⭐⭐⭐</option>
+   <option value="2">⭐⭐</option>
+   <option value="1">⭐</option>
+  </select>
+  <textarea id="rMsg" placeholder="Your Review"></textarea>
+  <button onclick="addReview()">Submit</button>
+  <button onclick="closeReview()">Cancel</button>
+ </div>
+</div>
+
+<!-- MAIN SITE -->
 <div id="site">
 
 <nav>
@@ -122,118 +147,151 @@ nav a{color:white;text-decoration:none;margin-left:20px}
 <div class="hero">
  <div>
   <h1>Explore the World with Us</h1>
-  <p>Trusted Holiday Partner</p>
+  <p>India's Trusted Holiday Partner</p>
  </div>
 </div>
 
 <div class="container" id="packages">
- <h2>Tour Packages</h2>
+ <h2>50+ Tour Packages</h2>
  <div class="packages" id="pkgBox"></div>
 </div>
 
+<button class="review-btn" onclick="openReview()">My Review</button>
+
 <div class="container" id="reviews">
- <h2>Customer Reviews</h2>
- <div id="reviewList"></div>
+ <h2>User Reviews</h2>
+ <div class="reviews" id="reviewList"></div>
 </div>
 
-<footer style="background:#002b5b;color:white;text-align:center;padding:15px">
- © 2026 Travel Mate
-</footer>
-
-</div>
-
-<!-- BOOKING POPUP -->
-<div class="popup" id="popup">
- <div class="box">
-  <h3>Booking Confirmed 🎉</h3>
-  <p id="bookText"></p>
-  <button onclick="popup.style.display='none'">OK</button>
- </div>
+<footer>© 2026 Travel Mate</footer>
 </div>
 
 <script>
-/* SECURITY */
-const CODE="TM-"+Math.floor(1000+Math.random()*9000);
-secCode.innerText=CODE;
-function checkSec(){
- if(secInput.value===CODE){
-  secBox.style.display="none";
-  loginBox.style.display="flex";
- }else secErr.innerText="Wrong code";
+/* AUTO LOGIN */
+if(localStorage.user){
+ user.value=localStorage.user;
+ pass.value=localStorage.pass;
+ remember.checked=true;
 }
 
-/* LOGIN + REMEMBER */
-user.value=localStorage.user||"";
-pass.value=localStorage.pass||"";
+/* LOGIN */
 function login(){
- if(user.value && pass.value){
-  if(remember.checked){
-   localStorage.user=user.value;
-   localStorage.pass=pass.value;
-  }
-  loginBox.style.display="none";
-  site.style.display="block";
- }else logErr.innerText="Enter details";
+ if(remember.checked){
+  localStorage.user=user.value;
+  localStorage.pass=pass.value;
+ }
+ loginBox.style.display="none";
+ site.style.display="block";
 }
 
-/* PACKAGES WITH FIXED IMAGES */
-const packages=[
- {n:"Kodaikanal",i:"https://images.unsplash.com/photo-1604937455095-efb36f0c8c10"},
- {n:"Manali",i:"https://images.unsplash.com/photo-1581791538302-03537b9c97bf"},
- {n:"Wayanad",i:"https://images.unsplash.com/photo-1630501478822-1db8c8b7d2c7"},
- {n:"Ladakh",i:"https://images.unsplash.com/photo-1599643477877-530eb83abc8e"},
- {n:"Andaman",i:"https://images.unsplash.com/photo-1586500036706-41963de24d8b"},
- {n:"Pondicherry",i:"https://images.unsplash.com/photo-1624012588894-3e50593c5400"},
- {n:"Mysore",i:"https://images.unsplash.com/photo-1628072713856-cbe2a3f97b9a"},
- {n:"Australia",i:"https://images.unsplash.com/photo-1506973035872-a4f23f23f23c"},
- {n:"Maldives",i:"https://images.unsplash.com/photo-1507525428034-b723cf961d3e"},
- {n:"Vietnam",i:"https://images.unsplash.com/photo-1504457047772-27faf1c00561"},
- {n:"Spain",i:"https://images.unsplash.com/photo-1509840841025-9088ba78a826"}
+/* UNIQUE IMAGES (NO REPEAT) */
+const images=[
+"https://images.unsplash.com/photo-1593693397690-362cb9666fc2",
+"https://images.unsplash.com/photo-1621330396173-1b1c1a42c36e",
+"https://images.unsplash.com/photo-1626621341517-b9c0d6a50f16",
+"https://images.unsplash.com/photo-1507525428034-b723cf961d3e",
+"https://images.unsplash.com/photo-1586500036706-41963de24d8b",
+"https://images.unsplash.com/photo-1600850056064-a8b380df8395",
+"https://images.unsplash.com/photo-1598940603846-a1edd0ef2574",
+"https://images.unsplash.com/photo-1629285483773-6b5cde1ac89c",
+"https://images.unsplash.com/photo-1548013146-72479768bada",
+"https://images.unsplash.com/photo-1590658268037-6bf12165a8df",
+"https://images.unsplash.com/photo-1512453979798-5ea266f8880c",
+"https://images.unsplash.com/photo-1502602898657-3e91760cbb34",
+"https://images.unsplash.com/photo-1469474968028-56623f02e42e",
+"https://images.unsplash.com/photo-1500530855697-b586d89ba3ee",
+"https://images.unsplash.com/photo-1518684079-2ca7d6b66c5d",
+"https://images.unsplash.com/photo-1526772662000-3f88f10405ff",
+"https://images.unsplash.com/photo-1519125323398-675f0ddb6308",
+"https://images.unsplash.com/photo-1501785888041-af3ef285b470",
+"https://images.unsplash.com/photo-1528909514045-2fa4ac7a08ba",
+"https://images.unsplash.com/photo-1500048993959-dc8d3c1a0f5b",
+"https://images.unsplash.com/photo-1519985176271-adb1088fa94c",
+"https://images.unsplash.com/photo-1526481280690-7e0c20bfa1c9",
+"https://images.unsplash.com/photo-1493558103817-58b2924bce98",
+"https://images.unsplash.com/photo-1494475673543-6a6a27143b1b",
+"https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05",
+"https://images.unsplash.com/photo-1501785888041-af3ef285b470",
+"https://images.unsplash.com/photo-1483683804023-6ccdb62f86ef",
+"https://images.unsplash.com/photo-1519681393784-d120267933ba",
+"https://images.unsplash.com/photo-1505761671935-60b3a7427bad",
+"https://images.unsplash.com/photo-1504196606672-aef5c9cefc92",
+"https://images.unsplash.com/photo-1512100356356-de1b84283e18",
+"https://images.unsplash.com/photo-1500534314209-a25ddb2bd429",
+"https://images.unsplash.com/photo-1518709268805-4e9042af9f23",
+"https://images.unsplash.com/photo-1493558103817-58b2924bce98",
+"https://images.unsplash.com/photo-1528909514045-2fa4ac7a08ba",
+"https://images.unsplash.com/photo-1501785888041-af3ef285b470",
+"https://images.unsplash.com/photo-1494475673543-6a6a27143b1b",
+"https://images.unsplash.com/photo-1500048993959-dc8d3c1a0f5b",
+"https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05",
+"https://images.unsplash.com/photo-1500530855697-b586d89ba3ee",
+"https://images.unsplash.com/photo-1519985176271-adb1088fa94c",
+"https://images.unsplash.com/photo-1526481280690-7e0c20bfa1c9",
+"https://images.unsplash.com/photo-1483683804023-6ccdb62f86ef",
+"https://images.unsplash.com/photo-1519125323398-675f0ddb6308",
+"https://images.unsplash.com/photo-1512100356356-de1b84283e18",
+"https://images.unsplash.com/photo-1518709268805-4e9042af9f23",
+"https://images.unsplash.com/photo-1505761671935-60b3a7427bad",
+"https://images.unsplash.com/photo-1504196606672-aef5c9cefc92"
 ];
 
-packages.forEach((p,x)=>{
- pkgBox.innerHTML+=`
+/* PACKAGES */
+const packages=[
+"Ooty","Kodaikanal","Manali","Goa","Kerala","Munnar","Coorg","Wayanad","Shimla","Darjeeling",
+"Agra","Jaipur","Udaipur","Jaisalmer","Ladakh","Kashmir","Amritsar","Rishikesh","Haridwar",
+"Andaman","Lakshadweep","Pondicherry","Hampi","Mysore","Dubai","Singapore","Malaysia","Thailand","Bali",
+"Paris","London","Switzerland","Italy","New York","Japan","South Korea","Australia","Maldives","Sri Lanka",
+"Nepal","Bhutan","Vietnam","Cambodia","Indonesia","Philippines","Egypt","Turkey","Greece","Spain"
+];
+
+let selected="",price=0;
+const box=document.getElementById("pkgBox");
+packages.forEach((n,i)=>{
+ let p=8000+i*400;
+ box.innerHTML+=`
  <div class="card">
-  <img src="${p.i}">
+  <img src="${images[i]}">
   <div class="card-body">
-   <h3>${p.n} Tour</h3>
-   <p>${3+x%3} Days / ${2+x%2} Nights</p>
-   <div class="price">₹${10000+x*1500}</div>
-   <button onclick="book('${p.n}')">Book Now</button>
+   <h3>${n} Tour</h3>
+   <p>${2+i%4} Days / ${1+i%3} Nights</p>
+   <div class="price">₹${p}</div>
+   <button onclick="book('${n}',${p})">Book Now</button>
   </div>
  </div>`;
 });
 
-/* BOOK */
-function book(n){
- bookText.innerText="Your "+n+" tour is confirmed!";
- popup.style.display="flex";
+/* BOOKING */
+function book(n,p){
+ selected=n;price=p;
+ bookDetails.innerHTML=`<b>${n}</b><br>Amount: ₹${p}`;
+ bookBox.style.display="flex";
+}
+function closeBooking(){bookBox.style.display="none"}
+function confirmBooking(){
+ alert("Booking confirmed for "+selected);
+ closeBooking();
 }
 
 /* REVIEWS */
-const reviews=[
- {u:"Arun",r:5,t:"Amazing experience"},
- {u:"Priya",r:4,t:"Very good service"},
- {u:"Karthik",r:5,t:"Worth the money"},
- {u:"Divya",r:4,t:"Nice planning"},
- {u:"Ravi",r:5,t:"Highly recommended"},
- {u:"Sneha",r:4,t:"Loved the trip"}
-];
-
-function loadReviews(){
- reviewList.innerHTML="";
- reviews.forEach((v,i)=>{
-  reviewList.innerHTML+=`
-  <div class="review-box">
-   <b>${v.u}</b>
-   <div class="stars">${"★".repeat(v.r)}</div>
-   <p>${v.t}</p>
-   <button class="small-btn" onclick="del(${i})">Delete</button>
-  </div>`;
- });
+const list=document.getElementById("reviewList");
+function addReview(){
+ let stars="★".repeat(rStar.value);
+ list.innerHTML+=`
+ <div class="review">
+  <button class="del" onclick="this.parentElement.remove()">×</button>
+  <div class="review-header">
+   <img src="https://randomuser.me/api/portraits/lego/1.jpg">
+   <strong>${rName.value}</strong>
+  </div>
+  <div class="stars">${stars}</div>
+  <p>${rMsg.value}</p>
+ </div>`;
+ closeReview();
+ rName.value=rMsg.value="";
 }
-function del(i){reviews.splice(i,1);loadReviews()}
-loadReviews();
+function openReview(){reviewBox.style.display="flex"}
+function closeReview(){reviewBox.style.display="none"}
 </script>
 
 </body>
