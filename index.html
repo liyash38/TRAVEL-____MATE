@@ -2,288 +2,238 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Travel Mate | Big Project</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-*{box-sizing:border-box;margin:0;padding:0;font-family:Segoe UI,Arial,sans-serif;}
-body{background:#f4f6f8;}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Segoe UI,Arial}
+body{background:#f4f6f8}
 
-/* ========== SECURITY LAYER ========== */
-#securityBox{
-  position:fixed;inset:0;
-  background:#f4f6f8;
-  display:flex;align-items:center;justify-content:center;
-  z-index:9999;
+/* COMMON */
+.center{
+ position:fixed;inset:0;
+ display:flex;align-items:center;justify-content:center;
+ background:#f4f6f8;z-index:9999;
 }
-.security-card{
-  width:360px;background:#fff;padding:25px;
-  border-radius:14px;text-align:center;
-  box-shadow:0 12px 30px rgba(0,0,0,.2);
+.box{
+ width:360px;background:#fff;padding:25px;
+ border-radius:14px;text-align:center;
+ box-shadow:0 12px 30px rgba(0,0,0,.2);
 }
-.security-card h2{color:#002b5b;margin-bottom:8px;}
-.security-card input,.security-card button{
-  width:100%;padding:12px;margin:10px 0;border-radius:8px;
+input,button{
+ width:100%;padding:12px;margin:10px 0;border-radius:8px
 }
-.security-card input{border:1px solid #ccc;}
-.security-card button{
-  background:#002b5b;color:white;border:none;cursor:pointer;
-}
-.code{font-size:24px;font-weight:bold;letter-spacing:3px;color:#198754;}
-.small{font-size:13px;color:#555;}
-.error{color:red;font-size:14px;}
+input{border:1px solid #ccc}
+button{background:#002b5b;color:white;border:none;cursor:pointer}
+.error{color:red;font-size:14px}
+.code{font-size:22px;font-weight:bold;color:#198754}
 
-/* ========== MAIN CONTENT ========== */
-#mainContent{display:none;}
+/* SITE */
+#site{display:none}
 
-/* NAVBAR */
+/* NAV */
 nav{
-  background:#002b5b;color:white;
-  display:flex;justify-content:space-between;align-items:center;
-  padding:15px 30px;position:sticky;top:0;z-index:999;
+ background:#002b5b;color:white;
+ display:flex;justify-content:space-between;
+ padding:15px 30px;position:sticky;top:0
 }
-nav h2{color:#ffcc00;}
-nav a{color:white;text-decoration:none;margin-left:20px;font-weight:500;}
-nav a:hover{text-decoration:underline;}
+nav h2{color:#ffcc00}
+nav a{color:white;text-decoration:none;margin-left:20px}
 
 /* HERO */
 .hero{
-  background:url("https://images.unsplash.com/photo-1507525428034-b723cf961d3e") center/cover no-repeat;
-  height:80vh;display:flex;align-items:center;justify-content:center;
-  text-align:center;color:white;
+ background:url("https://images.unsplash.com/photo-1507525428034-b723cf961d3e") center/cover;
+ height:60vh;display:flex;align-items:center;justify-content:center;
+ color:white;text-align:center
 }
-.hero h1{font-size:48px;text-shadow:2px 2px 8px black;}
-.hero p{margin-top:10px;font-size:20px;}
+.hero h1{text-shadow:2px 2px 8px black}
 
-/* SEARCH */
-.search-box{
-  background:white;padding:20px;max-width:900px;margin:-50px auto 40px;
-  border-radius:10px;box-shadow:0 10px 25px rgba(0,0,0,.15);
-  display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:15px;
-}
-.search-box input,.search-box select{
-  padding:10px;border:1px solid #ccc;border-radius:5px;
-}
-.search-box button{
-  background:#ffcc00;border:none;font-weight:bold;cursor:pointer;
-}
-
-/* COMMON */
-.container{max-width:1100px;margin:auto;padding:50px 20px;}
-h2{text-align:center;margin-bottom:30px;color:#002b5b;}
+/* CONTAINER */
+.container{max-width:1200px;margin:auto;padding:40px}
 
 /* PACKAGES */
-.packages{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:25px;}
+.packages{
+ display:grid;
+ grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+ gap:25px
+}
 .card{
-  background:white;border-radius:12px;overflow:hidden;
-  box-shadow:0 6px 15px rgba(0,0,0,.15);
+ background:white;border-radius:12px;overflow:hidden;
+ box-shadow:0 6px 15px rgba(0,0,0,.15)
 }
-.card img{width:100%;height:200px;object-fit:cover;}
-.card-body{padding:20px;}
-.card-body h3{color:#198754;}
-.price{color:#ff6600;font-weight:bold;margin:10px 0;}
-.card-body button{
-  width:100%;padding:10px;background:#002b5b;color:white;
-  border:none;cursor:pointer;border-radius:6px;
+.card img{width:100%;height:200px;object-fit:cover}
+.card-body{padding:18px}
+.price{color:#ff6600;font-weight:bold}
+.card button{margin-top:10px}
+
+/* POPUP */
+.popup{
+ position:fixed;inset:0;background:rgba(0,0,0,.6);
+ display:none;align-items:center;justify-content:center;
 }
+.popup .box{width:340px}
 
 /* REVIEWS */
-.reviews{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px;}
-.review{
-  background:white;padding:20px;border-radius:10px;
-  box-shadow:0 4px 10px rgba(0,0,0,.1);text-align:center;
+.review-box{
+ background:#fff;padding:20px;border-radius:12px;
+ margin:15px 0;box-shadow:0 5px 10px rgba(0,0,0,.1)
 }
-.review img{width:60px;height:60px;border-radius:50%;margin-bottom:10px;}
-.stars{color:gold;margin-bottom:10px;}
-
-/* BOOKING */
-form{
-  background:white;padding:30px;border-radius:12px;
-  box-shadow:0 6px 15px rgba(0,0,0,.15);
-  max-width:600px;margin:auto;
-}
-input,select{width:100%;padding:10px;margin:10px 0;}
-.success{color:green;font-weight:bold;}
-
-/* ADD REVIEW BUTTON */
-#addReviewBtn{
-  display:block;margin:20px auto;
-  padding:10px 20px;background:#ff6600;
-  color:white;border:none;border-radius:6px;cursor:pointer;
-}
-
-/* FOOTER */
-footer{
-  background:#002b5b;color:white;text-align:center;
-  padding:15px;margin-top:40px;
-}
+.stars{color:gold}
+.small-btn{background:red;padding:5px 8px;font-size:12px}
 </style>
 </head>
 
 <body>
 
-<!-- 🔐 SECURITY -->
-<div id="securityBox">
-  <div class="security-card">
-    <h2>TravelMate Security</h2>
-    <p class="small">Enter verification code</p>
-    <div class="code" id="secCode"></div>
-    <p class="small">Valid for <span id="time">120</span> sec</p>
-    <input id="userCode" placeholder="Enter code">
-    <button onclick="verifyCode()">Verify</button>
-    <p class="error" id="err"></p>
-  </div>
+<!-- SECURITY -->
+<div class="center" id="secBox">
+ <div class="box">
+  <h3>Security Verification</h3>
+  <div class="code" id="secCode"></div>
+  <input id="secInput" placeholder="Enter code">
+  <button onclick="checkSec()">Verify</button>
+  <p class="error" id="secErr"></p>
+ </div>
 </div>
 
-<!-- 🌍 MAIN SITE -->
-<div id="mainContent">
+<!-- LOGIN -->
+<div class="center" id="loginBox" style="display:none">
+ <div class="box">
+  <h3>User Login</h3>
+  <input id="user" placeholder="Username">
+  <input id="pass" type="password" placeholder="Password">
+  <label><input type="checkbox" id="remember"> Remember Me</label>
+  <button onclick="login()">Login</button>
+  <p class="error" id="logErr"></p>
+ </div>
+</div>
+
+<!-- SITE -->
+<div id="site">
 
 <nav>
-<h2>Travel Mate</h2>
-<div>
-<a href="#packages">Packages</a>
-<a href="#reviews">Reviews</a>
-<a href="#booking">Booking</a>
-<a href="#contact">Contact</a>
-</div>
+ <h2>Travel Mate</h2>
+ <div>
+  <a href="#packages">Packages</a>
+  <a href="#reviews">Reviews</a>
+ </div>
 </nav>
 
 <div class="hero">
-<div>
-<h1>Explore the World with Us</h1>
-<p>India's Trusted Holiday Partner</p>
+ <div>
+  <h1>Explore the World with Us</h1>
+  <p>Trusted Holiday Partner</p>
+ </div>
 </div>
-</div>
-
-<div class="search-box">
-<input placeholder="Destination">
-<input type="date">
-<select>
-<option>1 Person</option>
-<option>2 People</option>
-<option>Family</option>
-</select>
-<button>Search Packages</button>
-</div>
-
-<button id="addReviewBtn" onclick="addReviewPrompt()">Add My Review</button>
 
 <div class="container" id="packages">
-<h2>Popular Tour Packages</h2>
-<div class="packages">
-
-<div class="card">
-<img src="https://images.unsplash.com/photo-1593693397690-362cb9666fc2">
-<div class="card-body">
-<h3>Ooty Tour</h3>
-<p>3 Days / 2 Nights</p>
-<div class="price">₹8,000</div>
-<button onclick="selectPackage('Ooty Tour','₹8,000')">Book Now</button>
-</div>
-</div>
-
-<div class="card">
-<img src="https://images.unsplash.com/photo-1586500036706-41963de24d8b">
-<div class="card-body">
-<h3>Kodaikanal Tour</h3>
-<p>2 Days / 1 Night</p>
-<div class="price">₹6,000</div>
-<button onclick="selectPackage('Kodaikanal Tour','₹6,000')">Book Now</button>
-</div>
-</div>
-
-</div>
+ <h2>Tour Packages</h2>
+ <div class="packages" id="pkgBox"></div>
 </div>
 
 <div class="container" id="reviews">
-<h2>Customer Reviews</h2>
-<div class="reviews" id="reviews-container"></div>
+ <h2>Customer Reviews</h2>
+ <div id="reviewList"></div>
 </div>
 
-<div class="container" id="booking">
-<h2>Book Your Trip</h2>
-<form onsubmit="bookTour();return false;">
-<input id="name" placeholder="Your Name" required>
-<input placeholder="Email" required>
-<input id="pkg" placeholder="Package" readonly>
-<input id="price" placeholder="Price" readonly>
-<input type="date" required>
-<select>
-<option>1 Person</option>
-<option>2 People</option>
-<option>3 People</option>
-</select>
-<button>Confirm Booking</button>
-<p id="msg" class="success"></p>
-</form>
-</div>
-
-<div class="container" id="contact">
-<h2>Contact</h2>
-<p>Email: travelmate@gmail.com</p>
-<p>Phone: +91 8248399579</p>
-</div>
-
-<footer>
-<p>© 2026 Travel Mate</p>
+<footer style="background:#002b5b;color:white;text-align:center;padding:15px">
+ © 2026 Travel Mate
 </footer>
 
 </div>
 
+<!-- BOOKING POPUP -->
+<div class="popup" id="popup">
+ <div class="box">
+  <h3>Booking Confirmed 🎉</h3>
+  <p id="bookText"></p>
+  <button onclick="popup.style.display='none'">OK</button>
+ </div>
+</div>
+
 <script>
-/* ===== SECURITY LOGIC ===== */
-const VALID=120;
-let CODE="",time=VALID,timer;
+/* SECURITY */
+const CODE="TM-"+Math.floor(1000+Math.random()*9000);
+secCode.innerText=CODE;
+function checkSec(){
+ if(secInput.value===CODE){
+  secBox.style.display="none";
+  loginBox.style.display="flex";
+ }else secErr.innerText="Wrong code";
+}
 
-const deviceKey=btoa(navigator.userAgent+screen.width+screen.height);
-if(localStorage.getItem("TM_OK")===deviceKey) unlock();
+/* LOGIN + REMEMBER */
+user.value=localStorage.user||"";
+pass.value=localStorage.pass||"";
+function login(){
+ if(user.value && pass.value){
+  if(remember.checked){
+   localStorage.user=user.value;
+   localStorage.pass=pass.value;
+  }
+  loginBox.style.display="none";
+  site.style.display="block";
+ }else logErr.innerText="Enter details";
+}
 
-function gen(){
- const c="ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
- let x="TM-";
- for(let i=0;i<4;i++)x+=c[Math.floor(Math.random()*c.length)];
- return x;
-}
-function start(){
- CODE=gen();
- document.getElementById("secCode").innerText=CODE;
- timer=setInterval(()=>{
-  time--;
-  document.getElementById("time").innerText=time;
-  if(time<=0){clearInterval(timer);CODE="EXPIRED";secCode.innerText="EXPIRED";}
- },1000);
-}
-function verifyCode(){
- if(userCode.value.trim()===CODE){
-  localStorage.setItem("TM_OK",deviceKey);
-  unlock();
- }else err.innerText="Invalid / Expired code";
-}
-function unlock(){
- securityBox.style.display="none";
- mainContent.style.display="block";
-}
-start();
+/* PACKAGES WITH FIXED IMAGES */
+const packages=[
+ {n:"Kodaikanal",i:"https://images.unsplash.com/photo-1604937455095-efb36f0c8c10"},
+ {n:"Manali",i:"https://images.unsplash.com/photo-1581791538302-03537b9c97bf"},
+ {n:"Wayanad",i:"https://images.unsplash.com/photo-1630501478822-1db8c8b7d2c7"},
+ {n:"Ladakh",i:"https://images.unsplash.com/photo-1599643477877-530eb83abc8e"},
+ {n:"Andaman",i:"https://images.unsplash.com/photo-1586500036706-41963de24d8b"},
+ {n:"Pondicherry",i:"https://images.unsplash.com/photo-1624012588894-3e50593c5400"},
+ {n:"Mysore",i:"https://images.unsplash.com/photo-1628072713856-cbe2a3f97b9a"},
+ {n:"Australia",i:"https://images.unsplash.com/photo-1506973035872-a4f23f23f23c"},
+ {n:"Maldives",i:"https://images.unsplash.com/photo-1507525428034-b723cf961d3e"},
+ {n:"Vietnam",i:"https://images.unsplash.com/photo-1504457047772-27faf1c00561"},
+ {n:"Spain",i:"https://images.unsplash.com/photo-1509840841025-9088ba78a826"}
+];
 
-/* ===== PROJECT JS ===== */
-function selectPackage(p,pr){
- pkg.value=p;price.value=pr;
- location.href="#booking";
+packages.forEach((p,x)=>{
+ pkgBox.innerHTML+=`
+ <div class="card">
+  <img src="${p.i}">
+  <div class="card-body">
+   <h3>${p.n} Tour</h3>
+   <p>${3+x%3} Days / ${2+x%2} Nights</p>
+   <div class="price">₹${10000+x*1500}</div>
+   <button onclick="book('${p.n}')">Book Now</button>
+  </div>
+ </div>`;
+});
+
+/* BOOK */
+function book(n){
+ bookText.innerText="Your "+n+" tour is confirmed!";
+ popup.style.display="flex";
 }
-function bookTour(){
- msg.innerText="Thank you "+name.value+"! We will contact you soon.";
+
+/* REVIEWS */
+const reviews=[
+ {u:"Arun",r:5,t:"Amazing experience"},
+ {u:"Priya",r:4,t:"Very good service"},
+ {u:"Karthik",r:5,t:"Worth the money"},
+ {u:"Divya",r:4,t:"Nice planning"},
+ {u:"Ravi",r:5,t:"Highly recommended"},
+ {u:"Sneha",r:4,t:"Loved the trip"}
+];
+
+function loadReviews(){
+ reviewList.innerHTML="";
+ reviews.forEach((v,i)=>{
+  reviewList.innerHTML+=`
+  <div class="review-box">
+   <b>${v.u}</b>
+   <div class="stars">${"★".repeat(v.r)}</div>
+   <p>${v.t}</p>
+   <button class="small-btn" onclick="del(${i})">Delete</button>
+  </div>`;
+ });
 }
-function addReviewPrompt(){
- let n=prompt("Name"); if(!n)return;
- let r=prompt("Review"); if(!r)return;
- let rate=prompt("Rating 1-5"); rate=Math.min(Math.max(rate,1),5);
- let stars="★".repeat(rate)+"☆".repeat(5-rate);
- let d=document.createElement("div");
- d.className="review";
- d.innerHTML=`<img src="https://randomuser.me/api/portraits/lego/1.jpg">
- <h4>${n}</h4><div class="stars">${stars}</div><p>${r}</p>`;
- reviews-container.appendChild(d);
-}
+function del(i){reviews.splice(i,1);loadReviews()}
+loadReviews();
 </script>
 
 </body>
