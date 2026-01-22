@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>TravelMate | Security Check</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body{
+  font-family: Segoe UI, sans-serif;
+  background:#f4f6f8;
+}
+.box{
+  width:360px;
+  background:#fff;
+  padding:25px;
+  margin:110px auto;
+  border-radius:14px;
+  box-shadow:0 12px 30px rgba(0,0,0,.15);
+  text-align:center;
+}
+h2{ margin-bottom:8px; }
+input,button{
+  width:100%;
+  padding:12px;
+  margin:10px 0;
+  border-radius:8px;
+}
+input{
+  border:1px solid #ccc;
+  font-size:15px;
+}
+button{
+  background:#002b5b;
+  color:white;
+  border:none;
+  cursor:pointer;
+  font-size:15px;
+}
+.code{
+  font-size:24px;
+  font-weight:bold;
+  letter-spacing:3px;
+  margin:15px 0;
+  color:#0a8;
+}
+.small{
+  font-size:13px;
+  color:#555;
+}
+.error{ color:red; }
+.success{ color:green; }
+</style>
+</head>
+
+<body>
+
+<!-- VERIFY BOX -->
+<div class="box" id="verifyBox">
+  <h2>TravelMate Security</h2>
+  <p class="small">Enter the verification code to continue</p>
+
+  <div class="code" id="codeText"></div>
+  <p class="small">Valid for <span id="time">120</span> seconds</p>
+
+  <input type="text" id="inputCode" placeholder="Enter code here">
+  <button onclick="verify()">Verify</button>
+
+  <p class="error" id="msg"></p>
+</div>
+
+<!-- HOME -->
+<div class="box" id="homeBox" style="display:none;">
+  <h2>Welcome ✈️</h2>
+  <p class="success">TravelMate access granted</p>
+  <button onclick="logout()">Exit</button>
+</div>
+
+<script>
+/* ===== CONFIG ===== */
+const VALID_TIME = 120; // seconds
+
+/* ===== DEVICE LOCK ===== */
+const deviceKey = btoa(
+  navigator.userAgent +
+  screen.width +
+  screen.height +
+  Intl.DateTimeFormat().resolvedOptions().timeZone
+);
+
+/* ===== AUTO LOGIN IF VERIFIED ===== */
+if(localStorage.getItem("TM_VERIFIED") === deviceKey){
+  showHome();
+}
+
+/* ===== CODE GENERATION ===== */
+let CODE = "";
+let timer;
+let timeLeft = VALID_TIME;
+
+function generateCode(){
+  const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+  let c = "TM-";
+  for(let i=0;i<4;i++){
+    c += chars[Math.floor(Math.random()*chars.length)];
+  }
+  return c;
+}
+
+function start(){
+  CODE = generateCode();
+  document.getElementById("codeText").innerText = CODE;
+  document.getElementById("time").innerText = timeLeft;
+
+  timer = setInterval(()=>{
+    timeLeft--;
+    document.getElementById("time").innerText = timeLeft;
+    if(timeLeft <= 0){
+      clearInterval(timer);
+      CODE = "EXPIRED";
+      document.getElementById("codeText").innerText = "EXPIRED";
+    }
+  },1000);
+}
+
+/* ===== VERIFY ===== */
+function verify(){
+  const input = document.getElementById("inputCode").value.trim();
+  const msg = document.getElementById("msg");
+
+  if(input === ""){
+    msg.innerText = "Please enter the code";
+    return;
+  }
+
+  if(input === CODE){
+    localStorage.setItem("TM_VERIFIED", deviceKey);
+    showHome();
+  }else{
+    msg.innerText = "Invalid or expired code";
+  }
+}
+
+/* ===== SHOW HOME ===== */
+function showHome(){
+  document.getElementById("verifyBox").style.display="none";
+  document.getElementById("homeBox").style.display="block";
+}
+
+/* ===== LOGOUT ===== */
+function logout(){
+  localStorage.removeItem("TM_VERIFIED");
+  location.reload();
+}
+
+/* INIT */
+start();
+</script>
+
+</body>
+</html>
