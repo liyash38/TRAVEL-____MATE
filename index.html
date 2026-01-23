@@ -2,86 +2,85 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Travel Mate | Premium Project</title>
+<title>Travel Mate</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:Segoe UI,Arial}
 body{background:#f4f6f8}
 
-/* POPUP COMMON */
+/* LOGIN */
 .center{
- position:fixed;inset:0;display:flex;align-items:center;justify-content:center;
- background:rgba(0,0,0,.5);z-index:9999
+ position:fixed;inset:0;display:flex;
+ align-items:center;justify-content:center;
+ background:rgba(0,0,0,.6);z-index:9999
 }
 .box{
- width:380px;background:#fff;padding:25px;border-radius:14px;
- text-align:center;box-shadow:0 15px 35px rgba(0,0,0,.3);
- animation:pop .3s ease
+ width:360px;background:#fff;
+ padding:25px;border-radius:14px;
+ text-align:center
 }
-@keyframes pop{
- from{transform:scale(.8);opacity:0}
- to{transform:scale(1);opacity:1}
-}
-
-input,textarea,button{
- width:100%;padding:12px;margin:8px 0;border-radius:8px;border:1px solid #ccc
+input,textarea,select,button{
+ width:100%;padding:12px;margin:8px 0;
+ border-radius:8px;border:1px solid #ccc
 }
 button{background:#002b5b;color:#fff;border:none;cursor:pointer}
-button:hover{background:#01408a}
+.link{color:#002b5b;cursor:pointer;font-size:14px}
 .error{color:red;font-size:14px}
+.captcha-box{
+ display:flex;gap:10px;align-items:center;
+ font-weight:600;justify-content:center
+}
 
 #site{display:none}
 
 /* NAV */
 nav{
- background:#002b5b;color:white;
+ background:#002b5b;color:#fff;
  display:flex;justify-content:space-between;
- align-items:center;
- padding:15px 30px;position:sticky;top:0
+ align-items:center;padding:15px 30px
 }
 nav h2{color:#ffcc00}
-nav a,nav button{
- color:white;text-decoration:none;margin-left:20px;
- background:none;border:none;cursor:pointer;font-size:16px
+nav button{
+ background:#ffcc00;border:none;
+ padding:8px 16px;font-weight:600;
+ cursor:pointer;border-radius:20px
 }
 
 /* HERO */
 .hero{
- background:url("https://images.unsplash.com/photo-1469854523086-cc02fe5d8800") center/cover no-repeat;
  height:70vh;
- display:flex;
- align-items:center;
- justify-content:center;
- text-align:center;
- color:white;
+ display:flex;align-items:center;justify-content:center;
+ text-align:center;color:#fff;
+ background:center/cover no-repeat;
  position:relative;
+ transition:background-image 1.2s ease-in-out
 }
-.hero::after{
- content:"";
- position:absolute;inset:0;
- background:rgba(0,0,0,.45)
-}
+.hero::after{content:"";position:absolute;inset:0;background:rgba(0,0,0,.45)}
 .hero div{position:relative;z-index:1}
-.hero h1{font-size:50px;text-shadow:2px 2px 10px black}
-.hero p{font-size:20px;margin-top:10px}
 
-/* CONTENT */
-.container{max-width:1200px;margin:auto;padding:50px 20px}
+/* COMMON */
+.container{max-width:1300px;margin:auto;padding:50px 20px}
 h2{text-align:center;margin-bottom:30px;color:#002b5b}
 
 /* PACKAGES */
 .packages{
  display:grid;
- grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+ grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
  gap:25px
 }
 .card{
- background:#fff;border-radius:14px;overflow:hidden;
- box-shadow:0 8px 18px rgba(0,0,0,.18)
+ background:#fff;border-radius:18px;
+ overflow:hidden;
+ box-shadow:0 10px 25px rgba(0,0,0,.2);
+ transition:.4s
+}
+.card:hover{
+ transform:translateY(-10px) scale(1.03);
+ box-shadow:0 30px 55px rgba(0,0,0,.35)
 }
 .card img{width:100%;height:200px;object-fit:cover}
-.card-body{padding:20px}
+.card-body{padding:18px}
 .price{color:#ff6600;font-weight:bold;margin:8px 0}
 
 /* REVIEWS */
@@ -91,19 +90,59 @@ h2{text-align:center;margin-bottom:30px;color:#002b5b}
  gap:25px
 }
 .review-card{
- background:#fff;padding:20px;border-radius:14px;
+ background:#fff;padding:20px;
+ border-radius:14px;
  box-shadow:0 6px 15px rgba(0,0,0,.15)
 }
 .stars{color:#ffb400}
 
-/* FOOTER */
-footer{
- background:#002b5b;color:white;text-align:center;
- padding:15px;margin-top:40px
+/* ENQUIRE POPUP */
+.overlay{
+ position:fixed;inset:0;
+ background:rgba(0,0,0,.7);
+ display:none;align-items:center;justify-content:center;
+ z-index:999
+}
+.enquire-box{
+ width:540px;max-width:95%;
+ background:#fff;border-radius:20px;
+ overflow:hidden;
+ animation:pop .35s ease
+}
+@keyframes pop{
+ from{transform:scale(.85);opacity:0}
+ to{transform:scale(1);opacity:1}
+}
+.enquire-head{
+ background:linear-gradient(135deg,#ffcc00,#ff9f00);
+ padding:18px;
+ display:flex;justify-content:space-between;
+ align-items:center;
+ font-weight:800;letter-spacing:2px
+}
+.enquire-body{padding:25px}
+.enquire-body button{
+ background:linear-gradient(135deg,#ffcc00,#ff9f00);
+ color:#000;font-weight:700;border-radius:30px
+}
+.close{cursor:pointer;font-size:26px}
+
+/* SUCCESS POPUP */
+.success{
+ display:none;position:fixed;inset:0;
+ background:rgba(0,0,0,.7);
+ align-items:center;justify-content:center;z-index:1000
+}
+.success-box{
+ background:#fff;padding:30px;
+ border-radius:20px;text-align:center
 }
 
-/* HIDE */
-#bookBox,#successBox{display:none}
+/* FOOTER */
+footer{
+ background:#002b5b;color:#fff;
+ text-align:center;padding:15px;margin-top:40px
+}
 </style>
 </head>
 
@@ -112,158 +151,185 @@ footer{
 <!-- LOGIN -->
 <div class="center" id="loginBox">
  <div class="box">
-  <h2>User Login</h2>
-  <input id="user" placeholder="Username">
-  <input id="pass" type="password" placeholder="Password">
+  <h2>Login</h2>
+  <input id="luser" placeholder="Username">
+  <input id="lpass" type="password" placeholder="Password">
+
+  <div class="captcha-box">
+   <span id="capQ"></span>
+   <input id="capA" placeholder="Ans">
+  </div>
+
   <p class="error" id="loginErr"></p>
   <button onclick="login()">Login</button>
+  <p class="link" onclick="showSignup()">Create Account?</p>
  </div>
 </div>
 
-<!-- BOOKING -->
-<div class="center" id="bookBox">
+<div class="center" id="signupBox" style="display:none">
  <div class="box">
-  <h2>Confirm Booking</h2>
-  <p id="bookDetails"></p>
-  <button onclick="confirmBooking()">Confirm</button>
-  <button onclick="closeBooking()">Cancel</button>
+  <h2>Create Account</h2>
+  <input id="suser" placeholder="Username">
+  <input id="spass" type="password" placeholder="Password">
+  <p class="error" id="signupErr"></p>
+  <button onclick="signup()">Create</button>
+  <p class="link" onclick="showLogin()">Back to Login</p>
  </div>
 </div>
 
-<!-- SUCCESS -->
-<div class="center" id="successBox">
- <div class="box">
-  <h2 style="color:#28a745">🎉 Booking Confirmed</h2>
-  <p id="successMsg"></p>
-  <button onclick="closeSuccess()">OK</button>
- </div>
-</div>
-
-<!-- SITE -->
 <div id="site">
 
 <nav>
  <h2>Travel Mate</h2>
- <div>
-  <a href="#packages">Packages</a>
-  <a href="#reviews">Reviews</a>
-  <button onclick="logout()">Logout</button>
- </div>
+ <button onclick="openEnquire()">Enquire Now</button>
 </nav>
 
-<div class="hero">
+<div class="hero" id="hero">
  <div>
   <h1>Explore the World with Us</h1>
   <p>Premium Travel Experiences</p>
  </div>
 </div>
 
-<div class="container" id="packages">
- <h2>Top 20 Premium Tour Packages</h2>
+<div class="container">
+ <h2>25 Premium Tour Packages</h2>
  <div class="packages" id="pkgBox"></div>
 </div>
 
-<div class="container" id="reviews">
+<div class="container">
  <h2>Customer Reviews</h2>
- <div class="reviews" id="reviewList"></div>
 
- <div class="review-card" style="margin-top:30px">
-  <h3>Add Your Review</h3>
+ <div class="box" style="max-width:500px;margin:0 auto 30px">
   <input id="rname" placeholder="Your Name">
-  <select id="rstar">
+  <select id="rrate">
    <option value="5">★★★★★</option>
    <option value="4">★★★★</option>
    <option value="3">★★★</option>
-   <option value="2">★★</option>
-   <option value="1">★</option>
   </select>
-  <textarea id="rmsg" placeholder="Your Experience"></textarea>
+  <textarea id="rmsg" placeholder="Your Review"></textarea>
   <button onclick="addReview()">Submit Review</button>
  </div>
+
+ <div class="reviews" id="reviewList"></div>
 </div>
 
 <footer>© 2026 Travel Mate</footer>
 </div>
 
+<!-- ENQUIRE -->
+<div class="overlay" id="enquire">
+ <div class="enquire-box">
+  <div class="enquire-head">
+   ENQUIRE NOW
+   <span class="close" onclick="closeEnquire()">×</span>
+  </div>
+  <div class="enquire-body">
+   <input placeholder="Name">
+   <input placeholder="City">
+   <input placeholder="Email">
+   <input placeholder="Phone">
+   <button onclick="submitEnquire()">SUBMIT</button>
+  </div>
+ </div>
+</div>
+
+<!-- SUCCESS -->
+<div class="success" id="success">
+ <div class="success-box">
+  <h2>Thank You!</h2>
+  <p>Our team will contact you shortly 😊</p>
+  <button onclick="success.style.display='none'">OK</button>
+ </div>
+</div>
+
 <script>
-/* LOGIN */
+/* CAPTCHA */
+let a=Math.floor(Math.random()*10)+1;
+let b=Math.floor(Math.random()*10)+1;
+capQ.textContent=`${a} + ${b} =`;
+
+/* AUTH */
+let users=JSON.parse(localStorage.getItem("users"))||{};
+function signup(){
+ if(!suser.value||!spass.value){signupErr.textContent="All fields required";return;}
+ users[suser.value]=spass.value;
+ localStorage.setItem("users",JSON.stringify(users));
+ showLogin();
+}
 function login(){
- if(!user.value||!pass.value){
-  loginErr.textContent="Enter username & password";return;
- }
+ if(Number(capA.value)!==(a+b)){loginErr.textContent="Captcha wrong";return;}
+ if(users[luser.value]!==lpass.value){loginErr.textContent="Invalid login";return;}
  loginBox.style.display="none";
  site.style.display="block";
 }
-function logout(){
- site.style.display="none";
- loginBox.style.display="flex";
-}
+function showSignup(){loginBox.style.display="none";signupBox.style.display="flex"}
+function showLogin(){signupBox.style.display="none";loginBox.style.display="flex"}
+
+/* HERO */
+const heroImages=[
+ "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800",
+ "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee",
+ "https://images.unsplash.com/photo-1507525428034-b723cf961d3e"
+];
+let hi=0;
+hero.style.backgroundImage=`url(${heroImages[0]})`;
+setInterval(()=>{
+ hi=(hi+1)%heroImages.length;
+ hero.style.backgroundImage=`url(${heroImages[hi]})`;
+},3000);
 
 /* PACKAGES */
-const packages=[
- {n:"Goa Beach",i:"https://images.unsplash.com/photo-1507525428034-b723cf961d3e"},
- {n:"Manali Hills",i:"https://images.unsplash.com/photo-1501785888041-af3ef285b470"},
- {n:"Kerala Backwaters",i:"https://images.unsplash.com/photo-1602216056096-3b40cc0c9944"},
- {n:"Kashmir",i:"https://images.unsplash.com/photo-1580974928064-f0aeef70895a"},
- {n:"Ooty",i:"https://images.unsplash.com/photo-1593693397690-362cb9666fc2"},
- {n:"Ladakh",i:"https://images.unsplash.com/photo-1548013146-72479768bada"},
- {n:"Andaman",i:"https://images.unsplash.com/photo-1589308078059-fb6b38e2c19a"},
- {n:"Dubai",i:"https://images.unsplash.com/photo-1498496294664-d9372eb521f3"},
- {n:"Paris",i:"https://images.unsplash.com/photo-1502602898657-3e91760cbb34"},
- {n:"Switzerland",i:"https://images.unsplash.com/photo-1518684079-2ca7d6b66c5d"},
- {n:"Maldives",i:"https://images.unsplash.com/photo-1500375592092-40eb2168fd21"},
- {n:"Bali",i:"https://images.unsplash.com/photo-1505761671935-60b3a7427bad"},
- {n:"Thailand",i:"https://images.unsplash.com/photo-1526772662000-3f88f10405ff"},
- {n:"Singapore",i:"https://images.unsplash.com/photo-1508964942454-1a56651d54ac"},
- {n:"Japan",i:"https://images.unsplash.com/photo-1549693578-d683be217e58"},
- {n:"New York",i:"https://images.unsplash.com/photo-1549924231-f129b911e442"},
- {n:"London",i:"https://images.unsplash.com/photo-1488747279002-c8523379faaa"},
- {n:"Turkey",i:"https://images.unsplash.com/photo-1524231757912-21f4fe3a7200"},
- {n:"Greece",i:"https://images.unsplash.com/photo-1504512485720-7d83a16ee930"},
- {n:"Egypt",i:"https://images.unsplash.com/photo-1503174971373-b1f69850bded"}
+const places=[
+ "Goa","Manali","Kerala","Kashmir","Ooty","Ladakh","Andaman",
+ "Dubai","Paris","Switzerland","Maldives","Bali","Thailand",
+ "Singapore","Japan","New York","London","Turkey","Greece",
+ "Egypt","Rome","Sydney","Bangkok","Vietnam","Sri Lanka"
 ];
-
-pkgBox.innerHTML="";
-packages.forEach((p,i)=>{
- let price=18000+i*1500;
+const imgs=[
+ "1507525428034-b723cf961d3e","1501785888041-af3ef285b470",
+ "1602216056096-3b40cc0c9944","1580974928064-f0aeef70895a",
+ "1593693397690-362cb9666fc2","1548013146-72479768bada",
+ "1589308078059-fb6b38e2c19a","1498496294664-d9372eb521f3",
+ "1502602898657-3e91760cbb34","1518684079-2ca7d6b66c5d",
+ "1500375592092-40eb2168fd21","1505761671935-60b3a7427bad",
+ "1526772662000-3f88f10405ff","1508964942454-1a56651d54ac",
+ "1549693578-d683be217e58","1549924231-f129b911e442",
+ "1488747279002-c8523379faaa","1524231757912-21f4fe3a7200",
+ "1504512485720-7d83a16ee930","1503174971373-b1f69850bded",
+ "1526481280690-7ead52c5d8c9","1508609349937-5ec4ae374ebf",
+ "1505739778899-7c2b1e9d1e02","1506973035872-a4f23ef3b4e2",
+ "1512453979798-5ea266f8880c"
+];
+places.forEach((n,i)=>{
  pkgBox.innerHTML+=`
  <div class="card">
-  <img src="${p.i}">
+  <img src="https://images.unsplash.com/photo-${imgs[i]}?auto=format&fit=crop&w=800&q=80">
   <div class="card-body">
-   <h3>${p.n}</h3>
-   <p>${3+i%3} Days / ${2+i%2} Nights</p>
-   <div class="price">₹${price}</div>
-   <button onclick="book('${p.n}',${price})">Book Now</button>
+   <h3>${n}</h3>
+   <div class="price">₹${22000+i*1000}</div>
   </div>
  </div>`;
 });
 
-/* BOOKING */
-let selected="",amount=0;
-function book(n,p){
- selected=n;amount=p;
- bookDetails.innerHTML=`<b>${n}</b><br>Amount: ₹${p}`;
- bookBox.style.display="flex";
-}
-function closeBooking(){bookBox.style.display="none"}
-function confirmBooking(){
- bookBox.style.display="none";
- successMsg.innerHTML=`<b>${selected}</b><br>Paid: ₹${amount}<br><br>Happy Journey ✈️`;
- successBox.style.display="flex";
-}
-function closeSuccess(){successBox.style.display="none"}
-
-/* REVIEWS */
-const reviewList=document.getElementById("reviewList");
+/* REVIEWS ADD */
 function addReview(){
  if(!rname.value||!rmsg.value)return;
+ let stars="★".repeat(rrate.value);
  reviewList.innerHTML+=`
  <div class="review-card">
   <h4>${rname.value}</h4>
-  <div class="stars">${"★".repeat(rstar.value)}</div>
+  <div class="stars">${stars}</div>
   <p>${rmsg.value}</p>
  </div>`;
- rname.value="";rmsg.value="";
+ rname.value=rmsg.value="";
+}
+
+/* ENQUIRE */
+function openEnquire(){enquire.style.display="flex"}
+function closeEnquire(){enquire.style.display="none"}
+function submitEnquire(){
+ enquire.style.display="none";
+ success.style.display="flex";
 }
 </script>
 
